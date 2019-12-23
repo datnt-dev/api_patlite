@@ -10,11 +10,11 @@ password = 'Hoplong6688'
 def get_connection():
     try:
         cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-        print('Connection has been initial...')
+        # print('Connection has been initial...')
 
         return cnxn
     except Exception as e:
         print('Connection error: ', e)
         return None
 
-get_connection()
+# get_connection()
