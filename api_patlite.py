@@ -93,7 +93,7 @@ def get_state_all():
         sql = sql = """
                 SELECT MAC_ADDRESS, CURRENT_STATE FROM PATLITE_STATE_CONTROL
               """
-        cursor.execute(sql, mac_address)
+        cursor.execute(sql)
         columns = [column[0] for column in cursor.description]
         # print(columns)
         results = []
