@@ -5,32 +5,37 @@ import decimal
 from flask import jsonify
 
 
-def get_state(param):
+def get_state():
   connect = get_connection()
 
   
   cursor = connect.cursor()
   sql = sql = """
-                { CALL Q012_MobileTest (@mac=?) }
+                SELECT MAC_ADDRESS, CURRENT_STATE FROM PATLITE_STATE_CONTROL
               """
-  cursor.execute(sql, param)
+  cursor.execute(sql)
   # cursor.execute(sql, params)
-  rows = cursor.fetchall()
-  return rows
+  # rows = cursor.fetchall()
+  # print(rows)
+  return cursor
 
 
 # params = '58C232FFFE579F0F'
-rows = get_state(params)
+cursor = get_state()
+columns = [column[0] for column in cursor.description]
+print(columns)
 
-for row in rows:
-  data = [x for x in row]
-print(data)
-res = {
-  'mac_address': data[0],
-  'state': data[1]
-}
+results = []
 
-print(res)
+for row in cursor.fetchall():
+  results.append(dict(zip(columns, row)))  
+
+print(results)
+#   'mac_address': data[0],
+#   'state': data[1]
+# }
+
+# print(res)
 
 
 # def get_state():

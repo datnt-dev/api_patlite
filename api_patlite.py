@@ -76,7 +76,6 @@ def get_state(mac_address):
             'time': time,
             'qty': rows[0][8],
             'up_time': time_up,
-            'des': rows[0][10]
         }
             
     except Exception as e:
@@ -84,6 +83,28 @@ def get_state(mac_address):
     finally:
         cursor.close()
         connect.close()
+
+@app.route('/api/state')
+def get_state_all():
+    try:
+        connect = get_connection()
+
+        cursor = connect.cursor()
+        sql = sql = """
+                SELECT MAC_ADDRESS, CURRENT_STATE FROM PATLITE_STATE_CONTROL
+              """
+        cursor.execute(sql, mac_address)
+        columns = [column[0] for column in cursor.description]
+        # print(columns)
+        results = []
+
+        for row in cursor.fetchall():
+            results.append(dict(zip(columns, row)))  
+        
+        return {'results': results}
+
+    except Exception as e:
+        print(e)
 
 @app.errorhandler(404)
 def not_found(error=None):
