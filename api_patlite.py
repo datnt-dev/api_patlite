@@ -101,7 +101,7 @@ def get_state_all():
         for row in cursor.fetchall():
             results.append(dict(zip(columns, row)))  
         
-        return {'results': results}
+        return jsonify(results)
 
     except Exception as e:
         print(e)
